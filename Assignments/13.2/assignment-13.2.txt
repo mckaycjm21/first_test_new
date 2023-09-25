@@ -1,0 +1,14 @@
+## **Quiz**
+
+- What is the difference between ***var*** and ***let***?
+	let can not be redeclared and it is block scoped where as
+	var can be reassigned and redeclared and is function scoped
+	var also is hoisted and is declared before assignment 
+- What is the difference between **var** and ***const***?
+	const can not be reassigned or redeclared and is block scoped like let
+- What is the difference between **let** and **const**?
+	let is able to be reassigned and const can't
+- What is hoisting?
+	hoisting is referring to the declaration before assignments. In the 
+	instance of var it will declare the variable in the beginning but 
+	wont have an assignment until it runs through the code.
