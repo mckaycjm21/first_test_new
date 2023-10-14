@@ -44,7 +44,7 @@ class Garage{
         return "Vehicle added"
     }
 }
-let garage = new Garage(2);
+    let garage = new Garage(2);
 garage.vehicles; // []
 garage.add(new Car("Hyundai", "Elantra", 2015)); // "Vehicle added!"
 garage.vehicles; // [Car]
@@ -55,4 +55,4 @@ garage.add(new Motorcycle("Honda", "Nighthawk", 2000));
 garage.vehicles; // [Car, Motorcycle]
 
 garage.add(new Motorcycle("Honda", "Nighthawk", 2001));
-// "Sorry, we're full."
+// "Sorry, we're full." 
