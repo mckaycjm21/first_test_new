@@ -1,0 +1,34 @@
+- What is HTTP?
+	HyperText Transfer Protocol
+
+- What is a URL?
+	Uniform Resource Locator
+
+- What is DNS?
+	Domain Name Service
+
+- What is a query string?
+	Part of URL that assigns values to specific parameters 
+
+- What are two HTTP verbs and how are they different?
+	Get and Delete
+		Get retrieves information that is requested from the server
+		Delete removes specified information from the server 
+- What is an HTTP request?
+	They are actions to be preformed sent to the server
+- What is an HTTP response?
+	infomation sent back from the server
+- What is an HTTP header? Give a couple examples of request and response headers you have seen.
+	 They let the client and the server pass additional information with an HTTP request or response
+		- Host, Location
+- What are the processes that happen when you type “http://somesite.com/some/page.html” into a browser?
+	When you submit this your browser takes the human readable text and converts it to a address to a destination. It then sends
+	a request to the address and awaits a response. when the response is recieved it converts the infomration to a readable page in 	the browser window and displays it.
+
+curl request that get's pirate jokes from api?
+$ curl -H "Accept: application/json" https://icanhazdadjoke.com/search?term=pirate
+
+Use dig to find ip address to icanhazdadjoke site?
+172.67.198.173
+104.21.66.15
+
