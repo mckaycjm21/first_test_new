@@ -1,17 +1,42 @@
 h1 {
-    color: purple
+    color: black
 }
 body {
+    margin: 0;
     background-color: tan;
 }
-footer {
-    background-color: #717164;
-    margin-top: 50px;  
-    border: 1px solid black;
-    float: left;
-    width:99%;
-    height: 10%;
-    position: fixed;
-    clear: both;
-    margin-top: 565px;
-    }
+.messages p{
+    padding: 1rem;
+    font-size: 1.5rem;
+    border-radius: 1rem;
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
+}
+
+.messages .error{
+    background-color: rgba(255, 0, 0, 0.1);
+}
+
+.success{
+    background-color: rgba(0, 255, 0, 0.1);
+}
+
+a:hover {
+    background-color: tan;
+    color: black;
+}
+
+a {
+    color: tan;
+    padding: 1.25rem;
+}
+
+nav{
+    display: flex;
+    background-color: black;
+    border: solid;
+    border-width: 1px;
+    position: -webkit-sticky;
+    margin: 0;
+    padding: 0;
+    flex-direction: row;
+}

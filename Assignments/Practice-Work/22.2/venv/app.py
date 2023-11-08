@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect, flash, jsonify
 from flask_debugtoolbar import DebugToolbarExtension
 from random import randint, choice, sample
 from stories import story_happy, story_silly, story_smart, story_sad
@@ -6,13 +6,13 @@ from stories import story_happy, story_silly, story_smart, story_sad
 app = Flask(__name__)
 
 app.config['SECRET_KEY'] = 'testingbasickey'
+app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
 toolbar = DebugToolbarExtension(app)
 
 
 @app.route("/")
 def ask_story():
-    
-    return render_template("base2.html")
+    return render_template("base.html")
 
 @app.route("/questions")
 def ask_questions():
@@ -53,50 +53,64 @@ def show_story_smart():
 
 
 
-# COMPLIMENTS_MALE = ["handsome", "beautiful", "amazing", "strong"]
-# COMPLIMENTS_FEMALE = ["cute", "beautiful", "amazing", "bootylicious"]
+COMPLIMENTS_MALE = ["handsome", "beautiful", "amazing", "strong"]
+COMPLIMENTS_FEMALE = ["cute", "beautiful", "amazing", "bootylicious"]
+MOVIES = {'Scar', 'test', '80 men', 'Mckay'}
 
-# @app.route('/')
-# def home_page():
-#     return render_template("base.html")
+@app.route('/hello')
+def redirect_say_hello():
+    return redirect("/")
+@app.route('/movies')
+def show_all_movies():
+    return render_template('movies.html', movies=MOVIES)
 
-# @app.route('/hello')
-# def say_hello():
-#     return render_template("hello.html")
+@app.route('/movies/new', methods=["POST"])
+def add_movie():
+    title = request.form['title']
+    if(title in MOVIES):
+        flash('Movie Already Exists!', 'error')
+    else:
+        MOVIES.add(title)
+        flash("Created your movie!", 'success')
+    return redirect('/movies')
 
-# @app.route('/form')
-# def render_form():
-#     return render_template("form.html")
+@app.route('/movies/json')
+def get_movie_json():
+    return jsonify(list(MOVIES))
 
-# @app.route('/form-2')
-# def render_form_2():
-#     return render_template("form_2.html")
+@app.route('/form')
+def render_form():
+    return render_template("form.html")
 
-# @app.route('/greet')
-# def get_greeting():
-#     username = request.args["username"]
-#     compliment = choice(COMPLIMENTS_FEMALE)
-#     return render_template("greet.html", username=username, compliment=compliment)
+@app.route('/form-2')
+def render_form_2():
+    return render_template("form_2.html")
 
-# @app.route('/greet-2')
-# def get_greeting_2():
-#     username = request.args["username"]
-#     wants = request.args.get("wants_compliments")
-#     gender = request.args.get("is_girl")
-#     nice_things = ""
-#     if(gender == "on"):
-#         nice_things = sample(COMPLIMENTS_FEMALE, 3)
-#     else:
-#         nice_things = sample(COMPLIMENTS_MALE, 3)
+@app.route('/greet')
+def get_greeting():
+    username = request.args["username"]
+    compliment = choice(COMPLIMENTS_FEMALE)
+    return render_template("greet.html", username=username, compliment=compliment)
 
-#     return render_template("greet_2.html",gender=gender, username=username, compliments=nice_things, wants_compliments=wants)
+@app.route('/greet-2')
+def get_greeting_2():
+    username = request.args["username"]
+    wants = request.args.get("wants_compliments")
+    gender = request.args.get("is_girl")
+    nice_things = ""
+    if(gender == "on"):
+        nice_things = sample(COMPLIMENTS_FEMALE, 3)
+    else:
+        nice_things = sample(COMPLIMENTS_MALE, 3)
 
-# @app.route('/lucky')
-# def show_lucky_num():
-#     num = randint(1, 10)
-#     return render_template('lucky.html', lucky_num = num, msg = "You are so lucky!")
+    return render_template("greet_2.html",gender=gender, username=username, compliments=nice_things, wants_compliments=wants)
 
-# @app.route('/spell/<word>')
-# def spell_word(word):
-#     cap_word = word.upper()
-#     return render_template("spell.html", word=cap_word)
+@app.route('/lucky')
+def show_lucky_num():
+    num = randint(1, 10)
+    return render_template('lucky.html', lucky_num = num, msg = "You are so lucky!")
+
+@app.route('/spell/<word>')
+def spell_word(word):
+    cap_word = word.upper()
+    return render_template("spell.html", word=cap_word)

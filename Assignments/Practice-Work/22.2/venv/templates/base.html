@@ -7,18 +7,28 @@
     <title>{% block title %}Homepage{% endblock %}</title>
 </head>
 <body>
-    <h1>Our Site</h1>
     <nav class="navbar">
-        <a href="/">Home</a>
-        <a href="/form">Greeter Form</a>
-        <a href="/form-2">Greeter Form v2</a>
-        <a href="/hello">Hello</a>
-        <a href="/lucky">Lucky</a>
+        <a href="/">Home </a>
+        <a href="/form"> Greeter Form </a>
+        <a href="/form-2"> Greeter Form v2 </a>
+        <a href="/hello"> Hello </a>
+        <a href="/lucky"> Lucky </a>
+        <a href="/movies"> Movies </a>
     </nav>
-    {% block content %}
-    <h1>This is the Homepage!</h1>
-    {% endblock %}
+    <main id="content">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+    <section class="messages">
+        {% for category, msg in messages %}
+        <p class="{{category}}">{{category.upper()}} - {{msg}}</p>
+        {% endfor %}
+    </section>
+        <h1>This is the Homepage!</h1>
+    {% endif %}
+    {% endwith %}
+    {% block content %} {% endblock %}
+    </main>
     <footer>Pretend I am a Footer</footer>
 <!-- <script src="/static/app.js"></script> -->
 </body>
-</html> 
+</html>
