@@ -1,0 +1,13 @@
+{% extends 'base.html' %} 
+{% block title %} Lucky Num {% endblock %}
+{% block content %}
+    <h1>Your lucky number is: {{lucky_num}}</h1>
+    <p>{{msg}}</p>
+    {% if lucky_num == 2 %}
+    <h2> That is my Fave Number too!</h2>
+    <img src="https://media.tenor.com/FaBqCGZyF2UAAAAd/excited-happy.gif" alt="" height="400" width="400">
+    {%else%}
+    <h2>This is not my Lucky number</h2>
+    <img src="https://media.tenor.com/f1fVZ5yuLaIAAAAd/sad.gif" alt="" height="400" width="400">
+    {%endif%}
+{% endblock %}

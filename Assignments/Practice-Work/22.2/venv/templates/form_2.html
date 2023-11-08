@@ -1,0 +1,13 @@
+{% extends 'base.html' %} 
+{% block title %}Greeter Form v2 {% endblock %}
+{% block content %}
+    <form action="/greet-2">
+        <h1>Hi there {{username}}</h1>
+        <input type="text" name="username" placeholder="Your Name">
+        <label for="compliments">Do you want compliments</label>
+        <input type="checkbox" label="Do you want compliments" id="compliments" name="wants_compliments">
+        <label for="compliments">Are you a woman?</label>
+        <input type="checkbox" label="Are you a woman?" id="gender" name="is_girl">
+        <button type="submit">Submit</button>
+    </form>
+{% endblock %}

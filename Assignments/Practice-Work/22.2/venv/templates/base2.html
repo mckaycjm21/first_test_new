@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/app.css">
+    <title>{% block title %}Homepage{% endblock %}</title>
+</head>
+<body>{% block body %}
+    <h1>Madlib Story Time!</h1>
+    <form name="story_type" id="story_type" action="/questions">
+    <label for="story_choice">Choose a story type:</label> 
+    <select name="story_names" id="story_names"> 
+        <option value="sad">Sad Story</option> 
+        <option value="happy">Happy Story</option> 
+        <option value="silly">Silly Story</option> 
+        <option value="smart">Smart Story</option> 
+    </select>
+    <br>
+    <button type="submit">Submit</button>
+    </form>
+    {% endblock %}
+    <div id="footer">footer</div>
+    <footer id="footer" class="footer">Mad by Cornel with help of Madlib and blog.hubspot.com</footer>
+<!-- <script src="/static/app.js"></script> -->
+</body>
+</html> 
