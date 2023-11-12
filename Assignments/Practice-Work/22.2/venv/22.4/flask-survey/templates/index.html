@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="">
+    </head>
+    <body>
+        <h1>Please select a survey choice</h1>
+        <h2>{{request_method}}</h2>
+
+        <form action="/" method="POST">
+            <select name="survey_choice" id="survey_choice">
+                <option value="satisfaction">Satisfaction Survey</option>
+                <option value="personality">Personality Quiz</option>
+            </select><br><br>
+            <button type="submit">Submit</button>
+        </form>
+        <script src="" async defer></script>
+    </body>
+</html>
