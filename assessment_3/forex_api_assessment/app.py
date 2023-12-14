@@ -38,6 +38,7 @@
 
 from flask import Flask, request, render_template, redirect, flash, session
 from flask_debugtoolbar import DebugToolbarExtension
+from forms import AddSnackForm, NewEmployeeForm
 import requests
 
 RESPONSES_KEY = "responses"
@@ -45,7 +46,7 @@ RESPONSES_KEY = "responses"
 app = Flask(__name__)
 app.config['SECRET_KEY'] = "never-tell!"
 app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
-app.config['DEBUG_TB_ENABLED'] = False
+app.config['DEBUG_TB_ENABLED'] = True
 
 debug = DebugToolbarExtension(app)
 
@@ -58,7 +59,6 @@ def conversion_start():
 @app.route("/answer", methods=["POST"])
 def display_results():
     """Display results"""
-
     start = request.form['start_cur'].upper()
     end = request.form['end_cur'].upper()
     base_amt = request.form['base_amt']
@@ -75,3 +75,28 @@ def display_results():
     elif(status_code == 400):
         test = response.json()
         return render_template("error.html", test = test, status_code=status_code)
+    
+
+@app.route("/snack/new", methods=["GET", "POST"])
+def add_snack():
+    
+    form = AddSnackForm()
+
+    if form.validate_on_submit():
+        name = form.name.data
+        price = form.price.data
+        flash(f"Created new snack: name is {name}, price is ${price}")
+        return redirect('/snack')
+    else:
+        return render_template("add_snack_form.html", form=form)
+    
+
+@app.route("/snack")
+def base_snack():
+    return render_template("home.html")
+
+@app.route("/employees/new", methods=["GET", "POST"])
+def add_employee():
+    form = NewEmployeeForm()
+    if form.validate_on_submit():
+        return render_template("add_employees.html", form=form)
