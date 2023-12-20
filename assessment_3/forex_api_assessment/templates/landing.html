@@ -1,0 +1,6 @@
+<h1>Users</h1>
+{% for user in all_users %}
+    <a href="/user{{user.id}}"><p><blockquote>{{user.first_name}} {{user.last_name}}</blockquote></p></a>
+{% endfor %}
+<br>
+<input type="button" onclick="window.location.href='/add_user_form';" value="Add User">

@@ -1,0 +1,15 @@
+<h1>You have added:</h1>
+<ul>
+    <li><b>User Name:</b> {{user.first_name}} {{user.last_name}}</li>
+    <li><b>Profile Picture:</b> <br></li>
+            <blockquote><img src="{{user.image_url}}" alt ="profile picture" height="200" width="200"></blockquote>
+</ul>
+<br>
+    <form action="edit_user_form/{{user.id}}" method="POST">
+    <button type="submit" >Edit</button>
+    </form>                
+    
+    <form action="delete_user/{{user.id}}" method="POST">
+    <button type="submit">Delete</button>
+    </form>
+<a href="/">Go to Home</a>   <a href="/all_users">See all users</a>

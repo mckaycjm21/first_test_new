@@ -1,102 +1,112 @@
-
-#Currency List Endpoint
-#https:#marketdata.tradermade.com/api/v1/live_currencies_list?api_key=UxO-7n8djCmq0KLW2A8s
-
-#Crypto Pairs
-#https:#marketdata.tradermade.com/api/v1/live_crypto_list?api_key=UxO-7n8djCmq0KLW2A8s
-
-#Exchange rate example
-# live endpoint
-#https:#marketdata.tradermade.com/api/v1/live?currency=EURGBP,GBPJPY&api_key=UxO-7n8djCmq0KLW2A8s
-
-# historical
-#https:#marketdata.tradermade.com/api/v1/historical?date=2019-10-10&api_key=UxO-7n8djCmq0KLW2A8s
-
-# tick_historical
-#https:#marketdata.tradermade.com#api/v1/tick_historical/GBPUSD/2023-12-08 08:30/2023-12-08 09:00?format=json&api_key=UxO-7n8djCmq0KLW2A8s
-
-# tick_historical_sample
-#https:#marketdata.tradermade.com#api/v1/tick_historical_sample/GBPUSD/2023-12-08 08:30/2023-12-08 09:00?format=json&api_key=UxO-7n8djCmq0KLW2A8s
-
-# minute_historical
-#https:#marketdata.tradermade.com/api/v1/minute_historical?currency=EURUSD&date_time=2019-10-09-13:24&api_key=UxO-7n8djCmq0KLW2A8s
-
-# hour_historical
-#https:#marketdata.tradermade.com/api/v1/hour_historical?currency=EURUSD&date_time=2019-10-10-13:00&api_key=UxO-7n8djCmq0KLW2A8s
-
-# convert
-#https:#marketdata.tradermade.com/api/v1/convert?api_key=UxO-7n8djCmq0KLW2A8s&from=EUR&to=GBP&amount=1000
-
-# timeseries
-#https:#marketdata.tradermade.com/api/v1/timeseries?start_date=2015-01-01&end_date=2015-05-01&api_key=UxO-7n8djCmq0KLW2A8s
-
-# pandasDF
-#https:#marketdata.tradermade.com/api/v1/pandasDF?currency=EURUSD&start_date=2015-01-01&end_date=2015-05-01&api_key=UxO-7n8djCmq0KLW2A8s
-
-#Live Rates
-#https://marketdata.tradermade.com/api/v1/live?currency=EURUSD,GBPUSD,UK100&api_key=UxO-7n8djCmq0KLW2A8s
-
-from flask import Flask, request, render_template, redirect, flash, session
+from flask import Flask, request, render_template, redirect, flash, session, g
 from flask_debugtoolbar import DebugToolbarExtension
-from forms import AddSnackForm, NewEmployeeForm
-import requests
+from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import text
+from datetime import datetime
 
-RESPONSES_KEY = "responses"
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = "never-tell!"
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///blogly'
+app.config['SQLALCHEMY_TRACK_MODIFICATIIONS'] = False
+app.config['SQLALCHEMY_ECHO'] = True
+app.config['SECRET_KEY'] = "donttellanyone123"
 app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
-app.config['DEBUG_TB_ENABLED'] = True
-
 debug = DebugToolbarExtension(app)
 
+db = SQLAlchemy(app)
+
+class New_User(db.Model):
+    __tablename__ = "new_users"
+
+    id = db.Column(db.Integer, primary_key = True, autoincrement = True)
+    first_name = db.Column(db.String(50))
+    last_name = db.Column(db.String(50))
+    image_url = db.Column(db.String, unique = True)
+
+
+    def greet(self):
+        return f"Hi my name is {self.first_name} {self.last_name}"
+
+    def create_user(new_user):
+        db.session.add(new_user)
+        db.session.commit()
+
+    def delete_user(user):
+         db.session.delete(user)
+         db.session.commit()
+
+    def edit_user(user_id, first_name, last_name, image_url, self):
+         user = self.query.get(user_id)
+         user.first_name = first_name
+         user.last_name = last_name
+         user.image_url = image_url
+         db.session.add(user)
+         db.session.commit()
+
+with app.app_context():
+    db.create_all()
+
+
+
 @app.route("/")
-def conversion_start():
-    """basic page to start conversion"""
+def user_form():
+    all_users = New_User.query.all()
+    return render_template("landing.html", all_users = all_users)
 
-    return render_template("index.html")
+@app.route("/add_user_form")
+def add_user_form():
+     return render_template("add_user.html")
 
-@app.route("/answer", methods=["POST"])
-def display_results():
-    """Display results"""
-    start = request.form['start_cur'].upper()
-    end = request.form['end_cur'].upper()
-    base_amt = request.form['base_amt']
-    url = f"https://marketdata.tradermade.com/api/v1/convert?api_key=UxO-7n8djCmq0KLW2A8s&from={start}&to={end}&amount={base_amt}"
+@app.route("/add_user", methods = ["POST"])
+def add_user():
+        new_user = New_User(
+                first_name = request.form['first_name'],
+                last_name = request.form['last_name'], 
+                image_url = request.form['image_url'],
+                )              
+        New_User.create_user(new_user)
+        user = New_User.query.filter_by(image_url = new_user.image_url).first()
+        return redirect(f"/confirmation/{user.id}")
 
-    response = requests.get(url)
-    status_code = response.status_code
-    if(status_code == 200):
-        test = response.json()
-        total = round(float(test['total']), 2)
-        base = test['base_currency']
-        quote = test['quote_currency']
-        return render_template("answer.html", start = start, base=base, quote=quote,base_amt=base_amt, total=total, test=test)
-    elif(status_code == 400):
-        test = response.json()
-        return render_template("error.html", test = test, status_code=status_code)
-    
+@app.route('/confirmation/<id>')
+def confirmation_page(id):
+    user = New_User.query.filter_by(id = id).first()
+    return render_template("confirmation.html", user = user)
 
-@app.route("/snack/new", methods=["GET", "POST"])
-def add_snack():
-    
-    form = AddSnackForm()
+@app.route('/all_users')
+def all_users():
+     all_users = New_User.query.all()
+     return render_template('all_users.html', all_users = all_users)
 
-    if form.validate_on_submit():
-        name = form.name.data
-        price = form.price.data
-        flash(f"Created new snack: name is {name}, price is ${price}")
-        return redirect('/snack')
-    else:
-        return render_template("add_snack_form.html", form=form)
-    
+@app.route('/delete_user/<id>',methods = ["POST"])  
+def delete_user(id):
+     user = New_User.query.get(id)
+     New_User.delete_user(user)
+     return redirect(f"/delete_confirmation/{user.id}")
 
-@app.route("/snack")
-def base_snack():
-    return render_template("home.html")
+@app.route('/edit_user_form/<id>', methods = ["POST"])
+def edit_user_form(id):
+     user = New_User.query.get(id)
+     return render_template("/edit_user_form.html", user = user)
 
-@app.route("/employees/new", methods=["GET", "POST"])
-def add_employee():
-    form = NewEmployeeForm()
-    if form.validate_on_submit():
-        return render_template("add_employees.html", form=form)
+@app.route('/edit_user/<id>', methods = ["POST"])
+def edit_user(id):
+    first_name = request.form['first_name']
+    last_name = request.form['last_name']
+    image_url = request.form['image_url']
+    user = New_User.query.get(id)
+    user.first_name = first_name
+    user.last_name = last_name
+    user.image_url = image_url
+    db.session.add(user)
+    db.session.commit()
+    return redirect("/")
+
+@app.route('/delete_confirmation/<id>')
+def delete_confirmation_page(id):
+    return render_template("delete_confirmation.html", id = id)
+
+@app.route('/user<id>')
+def user_page(id):
+     user = New_User.query.get(id)
+     return render_template("user.html", user = user)
