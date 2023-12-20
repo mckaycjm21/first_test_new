@@ -1,0 +1,9 @@
+
+
+<form action="/add_post/{{user.id}}" method="POST">
+    </p><label for="content">Create your post</label></p>
+    <p>Title: <blockquote><input type="textarea" name="title" /></blockquote></p>
+    Content: <blockquote><textarea name="content" id="content" rows="4" cols="50">Type your post here</textarea></blockquote></p>
+    <input type="button" onclick="location.href='/user{{user.id}}';" value="Cancel" />
+    <button>Add</button>
+</form>

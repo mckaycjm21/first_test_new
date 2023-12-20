@@ -1,0 +1,10 @@
+<form action="/edit_post/{{post.id}}" method="POST">
+    <label for="title">Title  </label><input type="textarea" name="title" id="title" value="{{post.title}}" />
+    <br>
+    <br>
+    <br>
+    <label for="content">Post Content  <textarea name="content" id="content" rows="4" cols="50">{{post.content}}</textarea>
+    <br>
+    <input type="button" onclick="location.href='/user{{post.user_id}}';" value="Cancel" />
+    <button>Edit</button>
+</form>

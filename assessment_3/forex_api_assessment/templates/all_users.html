@@ -7,11 +7,11 @@
         <li><b>Profile Picture:</b> <br></li>
                 <blockquote><img src="{{user.image_url}}" alt ="profile picture" height="200" width="200"></blockquote> 
                 
-                <form action="edit_user_form/{{user.id}}" method="POST">
+                <form action="/edit_user_form/{{user.id}}">
                 <button type="submit" >Edit</button>
                 </form>                
                 
-                <form action="delete_user/{{user.id}}" method="POST">
+                <form action="/delete_user/{{user.id}}" method="POST">
                 <button type="submit">Delete</button>
                 </form>
 {% endfor %}

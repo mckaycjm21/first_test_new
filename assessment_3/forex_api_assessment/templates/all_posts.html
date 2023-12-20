@@ -1,0 +1,18 @@
+{% for post in posts %}
+    {{post.title}}
+    <p>{{post.content}}</p>
+    <input type="button" onclick="location.href='/user{{post.user_id}}';" value="Cancel"/>
+    <input type="button" onclick="location.href='/edit_post_form/{{post.id}}';" value="Edit" />
+    <input type="button" onclick="location.href='/delete_post/{{post.id}}';" value="Delete" />
+    <br>
+    <br>
+{% endfor %}
+<br>
+{% if posts[0] %}
+    <a href="/user{{posts[0].user_id}}">Go back to {{posts[0].user_info.first_name}}'s Page
+{% else %}
+    <h1>User Has No Post</h1>
+{% endif %}
+<br>
+<a href="/">Go to Home</a><br>
+

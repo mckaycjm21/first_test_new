@@ -1,0 +1,5 @@
+{{post.title}}
+<p>{{post.content}}</p>
+<input type="button" onclick="location.href='/user{{post.user_id}}';" value="Cancel"/>
+<input type="button" onclick="location.href='/edit_post_form/{{post.id}}';" value="Edit" />
+<input type="button" onclick="location.href='/delete_post/{{post.id}}';" value="Delete" />

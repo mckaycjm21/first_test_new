@@ -1,15 +1,27 @@
-<h1>You have added:</h1>
-<ul>
-    <li><b>User Name:</b> {{user.first_name}} {{user.last_name}}</li>
-    <li><b>Profile Picture:</b> <br></li>
-            <blockquote><img src="{{user.image_url}}" alt ="profile picture" height="200" width="200"></blockquote>
-</ul>
+<h1>{{user.first_name}} {{user.last_name}}</h1>
 <br>
-    <form action="edit_user_form/{{user.id}}" method="POST">
+    <img src="{{user.image_url}}" alt ="profile picture" height="200" width="200">
+<br>
+<br>
+    <form action="edit_user_form/{{user.id}}">
     <button type="submit" >Edit</button>
     </form>                
     
     <form action="delete_user/{{user.id}}" method="POST">
     <button type="submit">Delete</button>
     </form>
+<br>
+<h1>Posts</h1>
+<ul>
+    {% for post in user.posts %}
+    <li><a href="/view_post/{{post.id}}">{{post.title}}</a></li>
+    {% endfor %}
+</ul>
+
+<br>
+
+<form action="add_post_form/{{user.id}}">
+<input type="button" onclick="location.href='/view_all_posts/{{user.id}}';" value="View All Posts" />
+<button type="submit">Add Post</button>
+</form>
 <a href="/">Go to Home</a>   <a href="/all_users">See all users</a>
