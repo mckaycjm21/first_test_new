@@ -1,0 +1,6 @@
+<h1>Edit Tag</h1>
+<form action='/tags/{{tag.id}}/edit' method='POST'>
+    <input type='textarea' value='{{tag.name}}' name='tag_name' id='tag_name' /><br>
+    <input type='button' value='Cancel' onlick='location.href="/";'>
+    <input type='submit' value='Edit'>
+</form>

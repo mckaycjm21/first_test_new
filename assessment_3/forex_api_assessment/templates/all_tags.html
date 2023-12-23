@@ -1,0 +1,15 @@
+<h1> Tags</h1>
+{% if all_tags %}
+    <ul>
+    {% for tag in all_tags %}
+        <li><a href='/tags/{{tag.id}}'>{{tag.name}}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <blockquote><h3>No Tags Exist</h3></blockquote>
+{% endif %}
+
+<input type="button" value="Add Tag" onclick="location.href='/tags/new';">
+<br>
+<br>
+<a href='/'>Go Back</a>

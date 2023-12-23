@@ -4,6 +4,11 @@
     </p><label for="content">Create your post</label></p>
     <p>Title: <blockquote><input type="textarea" name="title" /></blockquote></p>
     Content: <blockquote><textarea name="content" id="content" rows="4" cols="50">Type your post here</textarea></blockquote></p>
+    {% for tag in tags %}
+    <input type='checkbox' name='tags'value='{{tag.id}}'><label for='tag_name'>{{tag.name}}</label>
+    {% endfor %}
+    <br>
+    <br>
     <input type="button" onclick="location.href='/user{{user.id}}';" value="Cancel" />
     <button>Add</button>
 </form>

@@ -1,6 +1,10 @@
 {% for post in posts %}
     {{post.title}}
     <p>{{post.content}}</p>
+    {% for tag in post.tags %}
+        |{{tag.name}}|
+    {% endfor %}
+    <br>
     <input type="button" onclick="location.href='/user{{post.user_id}}';" value="Cancel"/>
     <input type="button" onclick="location.href='/edit_post_form/{{post.id}}';" value="Edit" />
     <input type="button" onclick="location.href='/delete_post/{{post.id}}';" value="Delete" />

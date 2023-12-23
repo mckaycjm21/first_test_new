@@ -1,0 +1,12 @@
+<h1>{{tag.name}}</h1>
+
+<ul>
+{% for post in tag.posts %}
+    <li><a href='/view_post/{{post.id}}'>{{post.title}}</a></li>
+{% endfor %}
+</ul>
+<input type="button" onclick="location.href='/tags/{{tag.id}}/edit';" value="Edit">
+<input type="button" onclick="location.href='/tags/{{tag.id}}/delete';" value="Delete">
+<br>
+<br>
+<a href="/tags">Go Back</a>

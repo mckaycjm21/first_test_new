@@ -5,6 +5,15 @@
     <br>
     <label for="content">Post Content  <textarea name="content" id="content" rows="4" cols="50">{{post.content}}</textarea>
     <br>
+    {% if tags %}
+    <br>
+        {% for tag in tags %}
+                <input type='checkbox' name='tags'value='{{tag.id}}' {% for temp_tag in post.tags %} {% if temp_tag.name == tag.name %}checked{% endif %}{% endfor %}>
+                <label for='tag_name'>{{tag.name}}</label>
+        {% endfor %}
+        <br>
+    {% endif %}
+    <br>
     <input type="button" onclick="location.href='/user{{post.user_id}}';" value="Cancel" />
     <button>Edit</button>
 </form>
