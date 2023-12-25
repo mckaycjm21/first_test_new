@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <title>Homepage</title>
+</head>
+<body class="bg-info">
+    <h1 class="display-1 text-Left">Pets</h1>
+    <p>(Click name for more info)</p>
+    {% for pet in pets %}
+        <img src="{{pet.photo_url}}" height="200" width="250">
+        <p><a href="/pet/{{pet.id}}" class="text-dark hover">{{pet.name}}</a>
+        {% if pet.available %}
+            Available
+        {% endif %}
+        </p>
+    {% endfor %}
+    <a href="/pet/add" class="btn btn-success">Add a Pet</a>
+
+</body>
+</html>
