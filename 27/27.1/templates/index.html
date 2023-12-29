@@ -18,6 +18,17 @@
         </p>
     {% endfor %}
     <a href="/pet/add" class="btn btn-success">Add a Pet</a>
-
+    <br>
+    {{youtube_key}}
+    <br>
+    <p>Status Code: {{resp.status_code}}</p>
+        {% for result in resp.json()['results'] %}
+        <ol>
+            <li><img src="{{result['artworkUrl100']}}"></li>
+            <li>Artist Name: {{result['artistName']}}</li>
+            <li>Track Name: {{result['trackName']}}</li>
+            <li>Album Name: {{result['collectionName']}}</li>        
+        </ol>
+        {% endfor %}    
 </body>
 </html>

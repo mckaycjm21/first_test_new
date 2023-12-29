@@ -2,6 +2,8 @@ from flask import Flask, request, redirect, render_template, flash
 from flask_debugtoolbar import DebugToolbarExtension
 from models import db, connect_db, Pet, create_all
 from forms import PetForm
+import requests
+from secret import youtube_api_key
 
 
 app = Flask(__name__)
@@ -16,8 +18,12 @@ connect_db(app)
 
 @app.route('/')
 def show_homepage():
+    resp = requests.get(
+                        "https://itunes.apple.com/search",
+                        params={"term": "Aaliyah", "limit": 10}
+                        )
     pets = Pet.query.all()
-    return render_template('index.html', pets = pets)
+    return render_template('index.html', pets = pets, resp = resp, youtube_key = youtube_api_key)
 
 @app.route('/pet/add', methods = ['GET', 'POST'])
 def create_new_pet():
@@ -67,3 +73,4 @@ def show_pet(id):
 @app.route('/pet/confirmation/')
 def confirm_add_snack():
     return render_template('confirmation.html')
+
