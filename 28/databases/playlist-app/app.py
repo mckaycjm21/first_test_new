@@ -123,9 +123,7 @@ def add_song_to_playlist(playlist_id):
     songs = Song.query.all()
     form = NewSongForPlaylistForm()
     # Restrict form to songs not already on this playlist
-    curr_on_playlist = []
-    for song in playlist.songs:
-        curr_on_playlist.append(song.id)
+    curr_on_playlist = [song.id for song in playlist.songs]
     ids = []
     for song in songs:
         ids.append(song.id)
@@ -133,6 +131,7 @@ def add_song_to_playlist(playlist_id):
         
     res = [x for x in curr_on_playlist + ids if x not in curr_on_playlist or x not in ids]
     form.song.choices = res
+
 
     if form.validate_on_submit():
         song = Song.query.get(form.song.data)
