@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<form action="/songs/add" method="POST">
+{{ form.csrf_token }} 
+{% for field in form if field.widget.input_type != 'hidden' %}
+    <p>{{field.label}}{{field}}</p>
+{% endfor %}
+<br>
+<input type="submit" value="Add" />
+</form>
+
+
+{% endblock %}

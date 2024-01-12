@@ -1,0 +1,17 @@
+{
+    "name": "dsa-arrays-linked-lists",
+    "version": "1.0.0",
+    "description": "",
+    "main": "linked-list.js",
+    "scripts": {
+        "test": "jest"
+    },
+    "author": "",
+    "license": "ISC",
+    "devDependencies": {
+        "@types/jasmine": "^5.1.4",
+        "jasmine": "^5.1.0",
+        "jasmine-browser-runner": "^2.3.0",
+        "jasmine-core": "^5.1.1"
+    }
+}

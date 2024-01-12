@@ -13,7 +13,7 @@
 {% endfor %}
 <br>
 {% if posts[0] %}
-    <a href="/user{{posts[0].user_id}}">Go back to {{posts[0].user_info.first_name}}'s Page
+    <a href="/user{{posts[0].user_id}}">Go back to {{posts[0].users.first_name}}'s Page
 {% else %}
     <h1>User Has No Post</h1>
 {% endif %}

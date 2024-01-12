@@ -1,8 +1,7 @@
 from flask import Flask, request, render_template, redirect, flash, session, g
 from flask_debugtoolbar import DebugToolbarExtension
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import text
-from datetime import datetime, timezone
+from datetime import datetime
 
 
 app = Flask(__name__)
@@ -44,7 +43,7 @@ class Post(db.Model):
     created_at = db.Column(db.String, default = datetime.now())
     user_id = db.Column(db.Integer, db.ForeignKey("new_users.id"))
 
-    user_info = db.relationship('New_User', backref='posts')
+    users = db.relationship('New_User', backref='posts')
     tags = db.relationship('Tag', secondary = 'poststags', backref = 'posts')
 
     def create_post(new_post):
