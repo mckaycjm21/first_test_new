@@ -69,7 +69,7 @@ def add_playlist():
         db.session.add(new_playlist)
         db.session.commit()
 
-        return redirect("/songs")
+        return redirect("/playlists")
     return render_template("new_playlist.html",
                              form=form)
 
