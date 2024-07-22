@@ -4,7 +4,7 @@ from flask import Flask, render_template, request, flash, redirect, session, g
 from flask_debugtoolbar import DebugToolbarExtension
 from sqlalchemy.exc import IntegrityError
 
-from forms import UserAddForm, LoginForm, MessageForm
+from forms import UserAddForm, LoginForm, MessageForm, EditForm
 from models import db, connect_db, User, Message
 
 CURR_USER_KEY = "curr_user"
@@ -217,6 +217,45 @@ def profile():
     """Update profile for current user."""
 
     # IMPLEMENT THIS
+    form = EditForm()
+
+    form.bio.default = g.user.bio
+
+    if not g.user:
+        flash("Access unauthorized.", "danger")
+        return redirect("/")
+    
+    if form.validate_on_submit():
+        user = User.authenticate(g.user.username,
+                                 form.password.data)
+        
+        saved_image_url = g.user.image_url
+        saved_header_image_url = g.user.header_image_url
+
+        if user:
+            user = User(username = form.username.data,
+                             email = form.email.data,
+                             image_url=form.image_url.data,
+                             header_image_url=form.header_image_url.data,
+                             bio=form.bio.data,
+                             password=form.password.data,)
+            
+            g.user.username = form.username.data
+            g.email = form.email.data
+            g.user.image_url = form.image_url.data
+            g.user.header_image_url = form.header_image_url.data
+            g.user.bio = user.bio
+            if not g.user.image_url:
+                g.user.image_url = saved_image_url
+            if not g.user.header_image_url:
+                g.header_user.image_url = saved_header_image_url
+            db.session.commit()
+            flash(f'Hello, {user.username}!', "success")
+            return redirect(f'/users/{g.user.id}')
+
+        flash("Invalid credentials.", 'danger')
+
+    return render_template('users/edit.html', form=form)
 
 
 @app.route('/users/delete', methods=["POST"])
@@ -299,6 +338,7 @@ def homepage():
     if g.user:
         messages = (Message
                     .query
+                    .filter(Message.user_id == g.user.id)
                     .order_by(Message.timestamp.desc())
                     .limit(100)
                     .all())
